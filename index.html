@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Train Scheduler</title>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <!-- link to bootstrap css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <!-- Firebase References -->
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
-    <!-- <script src="https://train-scheduler-6a9e8.firebaseapp.com/__/auth/handler"></script> -->
-    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
-    
-    <!-- Added Moment JS -->
-    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Train Scheduler</title>
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+        <!-- link to bootstrap css -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <!-- Firebase References -->
+        <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+        <!-- Add Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+        <!-- Added Moment JS -->
+        <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 <body>
         <div class="jumbotron jumbotron-fluid">
                 <div class="container">
-                    <h1 class="display-4 text-center header">Train Scheduler</h1>
-                          <p class="lead text-center header">Let's go places.</p>
+                        <h1 class="display-4 text-center header">Train Scheduler</h1>
+                        <p class="lead text-center header">Let's go places.</p>
+                          <button id="googleSignIn">Google SignIn</button>
+                          <hr>
                           <p class="lead text-center" id = "currentTime">Loading.....</p>
-                    </div>
-                    <table class="table table-striped table-bordered table-hover" id ="trainList">
-                        <p class ="text-center bg-dark text-light">Current Train Schedule</p>
-                          <thead class="thead-dark">
-                              <tr>
+                </div>
+                        <table class="table table-striped table-bordered table-hover" id ="trainList">
+                                <p class ="text-center bg-dark text-light">Current Train Schedule</p>
+                                <thead class="thead-dark">
+                                <tr>
                                 <th scope="col">Train Name</th>
                                 <th scope="col">Destination</th>
                                 <th scope="col">Frequency(min)</th>
                                 <th scope="col">Next Arrival</th>
                                 <th scope="col">Minutes Away</th>
                                 <th scope="col">Select</th>
-                              </tr>
-                            </thead>
-                            <tbody></tbody>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
                           </table>
                           <hr>
                           <button type="submit" id ="remove-train" class="btn  btn-dark justify-center">Remove selected train</button>
@@ -53,8 +55,9 @@
                                         <input type="text" class="form-control" id="destination" placeholder="Enter Destination">
                                 </div>
                                 <div class="form-group">
+                                <!-- Input type time is not coming in 24 hour format. Why? -->
                                         <label for="firstTrainTime">First Train Time(HH:MM - military time)</label>
-                                        <input type="text" class="form-control" id="firstTrainTime" placeholder="Enter First Train Time">
+                                        <input type="text" class="form-control" id="firstTrainTime" placeholder="HH:MM  ">
                                 </div>
                                 <div class="form-group">
                                         <label for="trainFrequency">Frequency(mins)</label>

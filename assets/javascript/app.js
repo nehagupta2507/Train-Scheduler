@@ -14,49 +14,44 @@ firebase.initializeApp(firebaseConfig);
 let db = firebase.database();
 
 //Step N: Google authentication setup
-// var provider = new firebase.auth.GoogleAuthProvider();
-// provider.setCustomParameters({
-//     'login_hint': 'user@example.com'
-//   });
-// firebase.auth().signInWithPopup(provider).then(function(result) {
-//     // This gives you a Google Access Token. You can use it to access the Google API.
-//     var token = result.credential.accessToken;
-//     // The signed-in user info.
-//     var user = result.user;
-//     // ...
-// }).catch(function(error) {
-//     // Handle Errors here.
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
-//     // The email of the user's account used.
-//     var email = error.email;
-//     // The firebase.auth.AuthCredential type that was used.
-//     var credential = error.credential;
-//     // ...
-// });
-// firebase.auth().getRedirectResult().then(function(result) {
-//     if (result.credential) {
-//       // This gives you a Google Access Token. You can use it to access the Google API.
-//       var token = result.credential.accessToken;
-//       // ...
-//     }
-//     // The signed-in user info.
-//     var user = result.user;
-// }).catch(function(error) {
-//     // Handle Errors here.
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
-//     // The email of the user's account used.
-//     var email = error.email;
-//     // The firebase.auth.AuthCredential type that was used.
-//     var credential = error.credential;
-//     // ...
-// });
+function googleSignIn() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({
+    'login_hint': 'user@example.com'
+  });
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    var token = result.credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
+    console.log("Success");
+    // ...
+}).catch(function(error) {
+    // Handle Errors here.
+    console.log("Failed")
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    console.log(errorCode);
+    console.log(errorMessage);
+    console.log(email);
+    // ...
+});
+
 //   firebase.auth().signOut().then(function() {
 //     // Sign-out successful.
 //     }).catch(function(error) {
 //     // An error happened.
 // });
+}
+//adding sigin click
+$("#googleSignIn").on("click", function(){
+    googleSignIn();
+});
+
 
 // Step 2: Capture Button Click for adding train to the table
 $("#add-train").on("click", function(event){
