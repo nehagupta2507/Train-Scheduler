@@ -84,7 +84,7 @@ $("#add-train").on("click", function(event){
             trainName: TrainName,
             trainDestination: Destination,
             trainStartTime: FirstTrainTime,
-            trainFrequency: TrainFrequency,  
+            trainFrequency: TrainFrequency, 
         })
 });
 
@@ -97,8 +97,10 @@ db.ref().on("child_added", function(snapshot){
             destination: snapshot.val().trainDestination,
             startTime: snapshot.val().trainStartTime,
             tFrequency: snapshot.val().trainFrequency,
+            key: snapshot.key,
         }
         console.log(trainData);
+        let tKey = trainData.key;
 
         let firstTimeConverted = moment(trainData.startTime, "HH;mm").subtract(1, "years");
 
@@ -129,14 +131,13 @@ db.ref().on("child_added", function(snapshot){
     + trainData.tFrequency + "</td><td>"
     + nextArrivalTime + "</td><td>"
     + minutesAway  + "</td><td>"
-    +'<input type="checkbox" name="record"/>' + "</td></tr>");
+    +'<input type="checkbox" name="record" data-value='+ tKey + '/>' + "</td></tr>");
+    },
+    // Handle the error
+    function(errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
 
-    // Handle the errors 
-    // function(errorObject) {
-    //  console.log("Errors handled: " + errorObject.code);
-});
-
-});
 //Displaying current Time
 function updateTime() {
     $("#currentTime").text(moment(moment()).format("dddd, MMMM Do YYYY, H:mm:ss"));
@@ -146,9 +147,21 @@ function updateTime() {
 //Step 4: Find and remove selected table rows
 $("#remove-train").on("click",function(event){
     event.preventDefault();
+    let confirmDelete = confirm("Are you sure you want to delete this train? Clicking OK removes it permanently from database and table both. Just to remove from display click cancel");
     $("table tbody").find('input[name="record"]').each(function(){
         if($(this).is(":checked")){
+            if(confirmDelete){
+            //this removes train info from db.
+            let rm = $(this).attr("data-value");
+            db.ref().child(rm).remove();
+             //this removes just table from display.
             $(this).parents("tr").remove();
+            }
+            else{
+            //this removes just table from display.
+            $(this).parents("tr").remove();
+            }
         }
     });
+});
 });
