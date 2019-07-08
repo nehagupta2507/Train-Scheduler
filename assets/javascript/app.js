@@ -12,7 +12,51 @@ const firebaseConfig = {
   };
 firebase.initializeApp(firebaseConfig);
 let db = firebase.database();
-let train = [];
+
+//Step N: Google authentication setup
+// var provider = new firebase.auth.GoogleAuthProvider();
+// provider.setCustomParameters({
+//     'login_hint': 'user@example.com'
+//   });
+// firebase.auth().signInWithPopup(provider).then(function(result) {
+//     // This gives you a Google Access Token. You can use it to access the Google API.
+//     var token = result.credential.accessToken;
+//     // The signed-in user info.
+//     var user = result.user;
+//     // ...
+// }).catch(function(error) {
+//     // Handle Errors here.
+//     var errorCode = error.code;
+//     var errorMessage = error.message;
+//     // The email of the user's account used.
+//     var email = error.email;
+//     // The firebase.auth.AuthCredential type that was used.
+//     var credential = error.credential;
+//     // ...
+// });
+// firebase.auth().getRedirectResult().then(function(result) {
+//     if (result.credential) {
+//       // This gives you a Google Access Token. You can use it to access the Google API.
+//       var token = result.credential.accessToken;
+//       // ...
+//     }
+//     // The signed-in user info.
+//     var user = result.user;
+// }).catch(function(error) {
+//     // Handle Errors here.
+//     var errorCode = error.code;
+//     var errorMessage = error.message;
+//     // The email of the user's account used.
+//     var email = error.email;
+//     // The firebase.auth.AuthCredential type that was used.
+//     var credential = error.credential;
+//     // ...
+// });
+//   firebase.auth().signOut().then(function() {
+//     // Sign-out successful.
+//     }).catch(function(error) {
+//     // An error happened.
+// });
 
 // Step 2: Capture Button Click for adding train to the table
 $("#add-train").on("click", function(event){
@@ -42,7 +86,6 @@ $("#add-train").on("click", function(event){
             trainStartTime: FirstTrainTime,
             trainFrequency: TrainFrequency,  
         })
-        train.push(newTrain);
 });
 
 
@@ -85,7 +128,8 @@ db.ref().on("child_added", function(snapshot){
     + trainData.destination + "</td><td>" 
     + trainData.tFrequency + "</td><td>"
     + nextArrivalTime + "</td><td>"
-    + minutesAway + "</td></tr>");
+    + minutesAway  + "</td><td>"
+    +'<input type="checkbox" name="record"/>' + "</td></tr>");
 
     // Handle the errors 
     // function(errorObject) {
@@ -98,3 +142,13 @@ function updateTime() {
     $("#currentTime").text(moment(moment()).format("dddd, MMMM Do YYYY, H:mm:ss"));
   }
   setInterval(updateTime, 1000);
+
+//Step 4: Find and remove selected table rows
+$("#remove-train").on("click",function(event){
+    event.preventDefault();
+    $("table tbody").find('input[name="record"]').each(function(){
+        if($(this).is(":checked")){
+            $(this).parents("tr").remove();
+        }
+    });
+});
